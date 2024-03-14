@@ -14,8 +14,11 @@ ARG BASE_VERSION=3.2.1-bookworm
 ##
 ARG APP_ROOT=
 
+#FROM --platform=linux/${IMAGE_ARCH} \
+#    torizon/debian:${BASE_VERSION} AS Deploy
+
 FROM --platform=linux/${IMAGE_ARCH} \
-    torizon/debian:${BASE_VERSION} AS Deploy
+    python:3.9-slim-bookworm AS Build
 
 ARG IMAGE_ARCH
 ARG APP_ROOT
@@ -35,22 +38,40 @@ RUN apt-get -q -y update && \
     rm -rf /var/lib/apt/lists/*
 
 # Create virtualenv
-RUN python3 -m venv ${APP_ROOT}/.venv --system-site-packages
+RUN python3 -m venv --copies ${APP_ROOT}/.venv
 
 # Install pip packages on venv
 COPY requirements-release.txt /requirements-release.txt
 RUN . ${APP_ROOT}/.venv/bin/activate && \
-    pip3 install --upgrade pip && pip3 install --break-system-packages -r requirements-release.txt && \
-    rm requirements-release.txt
+    pip install  -v -r requirements-release.txt && \
+    rm requirements-release.txt 
 
+
+
+FROM --platform=linux/${IMAGE_ARCH} \
+    torizon/qt5-wayland-vivante:3 AS Deploy
+
+ENV LD_LIBRARY_PATH=/usr/local/lib
 # Copy the application source code in the workspace to the $APP_ROOT directory 
 # path inside the container, where $APP_ROOT is the torizon_app_root 
 # configuration defined in settings.json
-COPY ./src ${APP_ROOT}/src
+COPY ./src /home/torizon/app/src
+COPY --from=Build /home/torizon/app/.venv /home/torizon/app/.venv
+COPY --from=Build /usr/local/lib /usr/local/lib
+RUN apt-get -q -y update && \
+    apt-get -q -y install \
+      libglib2.0-0 \
+      libusb-1.0-0 \
+      libxext6 \
+    && apt-get clean && apt-get autoremove && \
+    rm -rf /var/lib/apt/lists/*
+WORKDIR /home/torizon/app/
 
-WORKDIR ${APP_ROOT}
+ENV QT_QPA_PLATFORM="xcb"
+ENV APP_ROOT=/home/torizon/app/
 
-ENV APP_ROOT=${APP_ROOT}
+USER torizon
 # Activate and run the code
-CMD . ${APP_ROOT}/.venv/bin/activate && python3 src/main.py --no-sandbox
+CMD . .venv/bin/activate \
+    &&  python3 src/detect.py --model src/voc_with_som.tflite --cameraId 2
 
