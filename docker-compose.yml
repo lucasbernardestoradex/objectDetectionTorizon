@@ -1,0 +1,16 @@
+version: "3.9"
+services:
+  objectdetectiontorizon-debug:
+    build:
+      context: .
+      dockerfile: Dockerfile.debug
+    image: ${LOCAL_REGISTRY}:5002/objectdetectiontorizon-debug:${TAG}
+    ports:
+      - 6502:6502
+      - 6512:6512
+    
+  objectdetectiontorizon:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ${DOCKER_LOGIN}/objectdetectiontorizon:${TAG}
