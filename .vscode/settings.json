@@ -22,7 +22,7 @@
   "docker_login": "lucasbernardestoradex",
   "docker_password": "secret",
   "docker_tag": "arm64",
-  "tcb.clientId": "3043d0e9-538c-41f4-97e8-5458eb698a90",
+  "tcb.clientId": "api-v2_f35a1d29_f0e0392f-2fa8-4ebf-98e5-20268bf52def",
   "tcb.clientSecret": "secret",
   "tcb.fleetName": "vision_project"
 }
