@@ -39,7 +39,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.debug
-    image: ${LOCAL_REGISTRY}:5002/videotfliteexample-debug:${TAG}
+    image: ${LOCAL_REGISTRY}:5002/objectdetectiontorizon-debug:${TAG}
     ports:
       - 6502:6502
       - 6512:6512
@@ -50,7 +50,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: ${DOCKER_LOGIN}/videotfliteexample:${TAG}
+    image: ${DOCKER_LOGIN}/objectdetectiontorizon:${TAG}
     environment:
       - DISPLAY=:0
     #devices:
