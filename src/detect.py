@@ -102,8 +102,6 @@ def run(model: str, camera_id: int, width: int, height: int, num_threads: int,
     with open(file_path, 'w') as file:
       file.write(str(fps))
 
-    print(f"Variable written to {file_path}")
-
     # Stop the program if the ESC key is pressed.
     if cv2.waitKey(1) == 27:
       break
