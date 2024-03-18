@@ -1,26 +1,19 @@
-version: "3.9"
 services:
-  objectdetectiontorizon:
-    volumes:
-    - /dev:/dev
-    - /tmp:/tmp
-    privileged: true
-    depends_on:
-    - weston
-    image: lucasbernardestoradex/objectdetectiontorizon:arm64
-    environment:
-    - DISPLAY=:0
   weston:
+    cap_add:
+    - CAP_SYS_TTY_CONFIG
     volumes:
-    - type: bind
+    - source: /tmp
+      type: bind
       target: /tmp
-      source: /tmp
-    - type: bind
+    - source: /dev
+      type: bind
       target: /dev
-      source: /dev
-    - type: bind
+    - source: /run/udev
+      type: bind
       target: /run/udev
-      source: /run/udev
+    image: torizon/weston-vivante:3
+    network_mode: host
     device_cgroup_rules:
     - c 4:0 rmw
     - c 4:1 rmw
@@ -28,9 +21,16 @@ services:
     - c 13:* rmw
     - c 226:* rmw
     - c 199:* rmw
-    cap_add:
-    - CAP_SYS_TTY_CONFIG
-    image: torizon/weston-vivante:3
     environment:
     - ACCEPT_FSL_EULA=1
-    network_mode: host
+  objectdetectiontorizon:
+    privileged: true
+    volumes:
+    - /dev:/dev
+    - /tmp:/tmp
+    image: lucasbernardestoradex/objectdetectiontorizon:arm64
+    depends_on:
+    - weston
+    environment:
+    - DISPLAY=:0
+version: "3.9"
