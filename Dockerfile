@@ -17,6 +17,7 @@ ARG APP_ROOT=
 #FROM --platform=linux/${IMAGE_ARCH} \
 #    torizon/debian:${BASE_VERSION} AS Deploy
 
+# Necessary to run the project, since the actual Python has package version issues
 FROM --platform=linux/${IMAGE_ARCH} \
     python:3.9-slim-bookworm AS Build
 
@@ -46,7 +47,7 @@ RUN . ${APP_ROOT}/.venv/bin/activate && \
     pip install  -v -r requirements-release.txt && \
     rm requirements-release.txt 
 
-
+# Necessary to install the delegate libraries on Torizon
 FROM --platform=linux/${IMAGE_ARCH} \
     torizon/debian:3-bookworm AS Middle
 
@@ -85,6 +86,7 @@ COPY tflite-vx-delegate.sh tflite-vx-delegate.sh
 RUN ./tflite-vx-delegate.sh
 
 
+# Necessary to run the application on a GUI
 FROM --platform=linux/${IMAGE_ARCH} \
     torizon/qt5-wayland-vivante:3 AS Deploy
 
