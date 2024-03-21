@@ -1,5 +1,6 @@
 #
 # Copyright 2020-2022 NXP
+# Copyright 2024 Toradex
 #
 # SPDX-License-Identifier: Apache-2.0
 #
@@ -11,9 +12,9 @@ import cv2
 import time, os
 import argparse
 
-from labels import label2string
+from labels_som import label2string
 
-MODEL_PATH = "/home/torizon/app/src/lite-model_ssd_mobilenet_v1_1_metadata_2.tflite"
+MODEL_PATH = "/home/torizon/app/src/voc_with_som.tflite"
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
@@ -64,10 +65,10 @@ while ret:
     interpreter.invoke()
     invoke_end = time.time()
 
-    boxes = interpreter.get_tensor(output_details[0]['index'])[0]
-    labels = interpreter.get_tensor(output_details[1]['index'])[0]
-    scores = interpreter.get_tensor(output_details[2]['index'])[0]
-    number = interpreter.get_tensor(output_details[3]['index'])[0]
+    boxes = interpreter.get_tensor(output_details[1]['index'])[0]
+    labels = interpreter.get_tensor(output_details[3]['index'])[0]
+    scores = interpreter.get_tensor(output_details[0]['index'])[0]
+    number = interpreter.get_tensor(output_details[2]['index'])[0]
     for i in range(int(number)):
         if scores[i] > 0.5:
             box = [boxes[i][0], boxes[i][1], boxes[i][2], boxes[i][3]]
