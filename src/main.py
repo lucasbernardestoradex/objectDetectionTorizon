@@ -14,7 +14,7 @@ import argparse
 
 from labels_som import label2string
 
-MODEL_PATH = "/home/torizon/app/src/voc_som_eff0_20epoch.tflite"
+MODEL_PATH = "/home/torizon/app/src/voc_som_eff2_30epoch.tflite"
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
@@ -86,9 +86,10 @@ while ret:
     loop_end = time.time()
     total_time += (loop_end - loop_start)
 
-    invoke_time = int((invoke_end - invoke_start) * 1000)
-    fps = 1/(invoke_time*1000)
-    msg = "FPS:" + str(format(fps,'.2f')) + "  Invoke time:" + str(invoke_time) + "ms"
+    invoke_time_seg = (invoke_end - invoke_start)
+    invoke_time_ms = invoke_time_seg * 1000
+    fps = 1/invoke_time_seg
+    msg = "FPS:" + "{:.2f}".format(fps) + "  Invoke time:" + "{:.2f}".format(invoke_time_ms) + "ms"
     cv2.putText(frame, msg, (0, 20), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 0), 3)
 
     cv2.imshow("image", frame)
