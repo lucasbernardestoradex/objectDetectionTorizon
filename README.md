@@ -8,4 +8,6 @@ Alerts:
 
 - Before attempting to run on the NPU, make sure that your module has one. This can be verified on the website.
 
-- Be sure to select the correct camera ID on the Dockerfile.
+- Be sure to select the correct camera ID on the `Dockerfile`.
+
+To change the model to your custom model, please add this on `./src/` and change the name of the model on `./src/main.py`.
