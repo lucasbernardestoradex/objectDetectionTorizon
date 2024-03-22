@@ -114,8 +114,9 @@ ENV USE_GPU_INFERENCE=0
 
 USER torizon
 # Activate and run the code
+# Be sure to select correctly your camera ID
 CMD . .venv/bin/activate \
     && python3 src/main.py \
     --delegate=/usr/lib/libvx_delegate.so \
-    -i /dev/video2
+    -i /dev/video2 
 
