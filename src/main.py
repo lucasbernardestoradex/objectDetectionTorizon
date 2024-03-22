@@ -92,7 +92,14 @@ while ret:
     msg = "FPS:" + "{:.2f}".format(fps) + "  Invoke time:" + "{:.2f}".format(invoke_time_ms) + "ms"
     cv2.putText(frame, msg, (0, 20), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 0), 3)
 
-    cv2.imshow("image", frame)
+    #Name the GUI app
+    cv2.namedWindow('object_detector',cv2.WINDOW_NORMAL)
+    
+    #Set the properties of GUI app
+    cv2.setWindowProperty('object_detector', cv2.WND_PROP_FULLSCREEN,
+                          cv2.WINDOW_FULLSCREEN)
+
+    cv2.imshow("object_detector", frame)
 
     ret, frame = vid.read()
     if cv2.waitKey(1) & 0xFF == ord('q'):
