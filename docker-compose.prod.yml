@@ -1,0 +1,36 @@
+services:
+  objectdetectiontorizon:
+    image: lucasbernardestoradex/objectdetectiontorizon:npu
+    environment:
+    - DISPLAY=:0
+    volumes:
+    - /dev:/dev
+    - /tmp:/tmp
+    depends_on:
+    - weston
+    privileged: true
+  weston:
+    image: torizon/weston-vivante:3
+    cap_add:
+    - CAP_SYS_TTY_CONFIG
+    device_cgroup_rules:
+    - c 4:0 rmw
+    - c 4:1 rmw
+    - c 4:7 rmw
+    - c 13:* rmw
+    - c 226:* rmw
+    - c 199:* rmw
+    environment:
+    - ACCEPT_FSL_EULA=1
+    volumes:
+    - target: /tmp
+      source: /tmp
+      type: bind
+    - target: /dev
+      source: /dev
+      type: bind
+    - target: /run/udev
+      source: /run/udev
+      type: bind
+    network_mode: host
+version: "3.9"

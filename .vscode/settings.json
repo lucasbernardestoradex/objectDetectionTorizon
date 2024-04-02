@@ -21,7 +21,7 @@
   "docker_registry": "registry-1.docker.io",
   "docker_login": "lucasbernardestoradex",
   "docker_password": "secret",
-  "docker_tag": "arm64",
+  "docker_tag": "npu",
   "tcb.clientId": "api-v2_f35a1d29_f0e0392f-2fa8-4ebf-98e5-20268bf52def",
   "tcb.clientSecret": "secret",
   "tcb.fleetName": "vision_project",
