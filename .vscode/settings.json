@@ -1,7 +1,7 @@
 {
   "torizon_psswd": "1",
   "torizon_login": "torizon",
-  "torizon_ip": "10.22.1.169",
+  "torizon_ip": "10.22.1.125",
   "host_ip": "10.22.1.90",
   "torizon_workspace": "${workspaceFolder}",
   "torizon_debug_port": "6512",
@@ -16,7 +16,7 @@
   "tcb.packageName": "objectDetectionTorizon",
   "tcb.version": "3.8.1",
   "docker.environment": {
-    "DOCKER_HOST": "tcp://10.22.1.169:2375"
+    "DOCKER_HOST": "tcp://10.22.1.125:2375"
   },
   "docker_registry": "registry-1.docker.io",
   "docker_login": "lucasbernardestoradex",
