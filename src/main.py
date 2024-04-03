@@ -89,6 +89,12 @@ while ret:
     invoke_time_seg = (invoke_end - invoke_start)
     invoke_time_ms = invoke_time_seg * 1000
     fps = 1/invoke_time_seg
+
+    # Save the fps count in /tmp to be used by Device Monitoring in Cloud
+    file_path = "/tmp/fps.txt"
+    with open(file_path, 'w') as file:
+      file.write(str(fps))
+
     msg = "FPS:" + "{:.2f}".format(fps) + "  Invoke time:" + "{:.2f}".format(invoke_time_ms) + "ms"
     cv2.putText(frame, msg, (0, 20), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 0), 3)
 
