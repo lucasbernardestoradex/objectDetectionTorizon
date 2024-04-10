@@ -114,10 +114,6 @@ def run(model: str, camera_id: int, width: int, height: int, num_threads: int,
  
     cv2.imshow('object_detector', image)
 
-    height, width, channels = image.shape
-    cv2.imshow('object_detector', image)
-    print(f"Image Resolution: {width}x{height} pixels")
-
   cap.release()
   cv2.destroyAllWindows()
 
