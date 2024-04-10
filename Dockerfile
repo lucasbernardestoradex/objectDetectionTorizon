@@ -73,5 +73,5 @@ ENV APP_ROOT=/home/torizon/app/
 USER torizon
 # Activate and run the code
 CMD . .venv/bin/activate \
-    &&  python3 src/detect.py --model src/voc_with_som.tflite --cameraId 2
+    &&  python3 src/detect.py --model src/voc_som_eff2_30epoch.tflite --cameraId 2
 
