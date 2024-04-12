@@ -4,4 +4,6 @@ argparse
 numpy>=1.26.4
 opencv-python>=4.9.0.80
 tflite-support>=0.4.2
+tflite_runtime==2.9.1
 protobuf>=3.18.0
+pillow

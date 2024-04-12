@@ -7,7 +7,7 @@ ARG IMAGE_ARCH=
 ##
 # Base container version
 ##
-ARG BASE_VERSION=3.2.1-bookworm
+ARG BASE_VERSION=3-bookworm
 
 ##
 # Directory of the application inside container
@@ -17,6 +17,7 @@ ARG APP_ROOT=
 #FROM --platform=linux/${IMAGE_ARCH} \
 #    torizon/debian:${BASE_VERSION} AS Deploy
 
+# Necessary to run the project, since the actual Python has package version issues
 FROM --platform=linux/${IMAGE_ARCH} \
     python:3.9-slim-bookworm AS Build
 
@@ -27,7 +28,7 @@ ARG APP_ROOT
 # Install required packages
 RUN apt-get -q -y update && \
     apt-get -q -y install \
-    python3-minimal \
+    python3 \
     python3-pip \
     python3-venv \
 # DO NOT REMOVE THIS LABEL: this is used for VS Code automation
@@ -47,7 +48,7 @@ RUN . ${APP_ROOT}/.venv/bin/activate && \
     rm requirements-release.txt 
 
 
-
+# Necessary to run the application on a GUI
 FROM --platform=linux/${IMAGE_ARCH} \
     torizon/qt5-wayland-vivante:3 AS Deploy
 
@@ -58,6 +59,7 @@ ENV LD_LIBRARY_PATH=/usr/local/lib
 COPY ./src /home/torizon/app/src
 COPY --from=Build /home/torizon/app/.venv /home/torizon/app/.venv
 COPY --from=Build /usr/local/lib /usr/local/lib
+
 RUN apt-get -q -y update && \
     apt-get -q -y install \
       libglib2.0-0 \
@@ -69,9 +71,11 @@ WORKDIR /home/torizon/app/
 
 ENV QT_QPA_PLATFORM="xcb"
 ENV APP_ROOT=/home/torizon/app/
+ENV USE_GPU_INFERENCE=0
 
 USER torizon
 # Activate and run the code
+# Be sure to select correctly your camera ID
 CMD . .venv/bin/activate \
-    &&  python3 src/detect.py --model src/voc_som_eff2_30epoch.tflite --cameraId 2
-
+    && python3 src/main.py \
+    -i /dev/video2 

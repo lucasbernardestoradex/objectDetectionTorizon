@@ -1,6 +1,8 @@
 {
   "torizon_psswd": "1",
+  "torizon_psswd": "1",
   "torizon_login": "torizon",
+  "torizon_ip": "10.22.1.125",
   "torizon_ip": "10.22.1.125",
   "host_ip": "10.22.1.90",
   "torizon_workspace": "${workspaceFolder}",
