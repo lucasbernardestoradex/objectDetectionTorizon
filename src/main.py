@@ -96,6 +96,12 @@ output_details = interpreter.get_output_details()
 height = input_details[0]['shape'][1]
 width = input_details[0]['shape'][2]
 
+float_input = (input_details[0]['dtype'] == np.float32)
+
+input_mean = 127.5
+input_std = 127.5
+
+
 min_conf_threshold = float(args.threshold)
 
 # Check output layer name to determine if this model was created with TF2 or TF1,
@@ -132,6 +138,10 @@ while True:
     frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     frame_resized = cv2.resize(frame_rgb, (width, height))
     input_data = np.expand_dims(frame_resized, axis=0)
+
+    # Normalize pixel values if using a floating model (i.e. if model is non-quantized)
+    if float_input:
+        input_data = (np.float32(input_data) - input_mean) / input_std
 
     # Normalize pixel values if using a floating model (i.e. if model is non-quantized)
     # if floating_model:

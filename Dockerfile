@@ -117,6 +117,6 @@ USER torizon
 # Be sure to select correctly your camera ID
 CMD . .venv/bin/activate \
     && python3 src/main.py \
-    # --delegate=/usr/lib/libvx_delegate.so \
+    --delegate=/usr/lib/libvx_delegate.so \
     -i /dev/video2 
 
