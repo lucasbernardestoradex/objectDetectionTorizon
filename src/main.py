@@ -15,7 +15,7 @@ import argparse
 
 from labels_only_som import label2string
 
-MODEL_PATH = "/home/torizon/app/src/ssd_detect_quant_only_som.tflite"
+MODEL_PATH = "/home/torizon/app/src/only_som_ssd_quant.tflite"
 # MODEL_PATH = "voc_som_eff2_30epoch.tflite"
 
 # Define VideoStream class to handle streaming of video from webcam in separate processing thread
