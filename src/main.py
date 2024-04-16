@@ -195,6 +195,11 @@ while True:
     time1 = (t2-t1)/freq
     frame_rate_calc= 1/time1
 
+    # Save the fps count in /tmp to be used by Device Monitoring in Cloud
+    file_path = "/tmp/fps.txt"
+    with open(file_path, 'w') as file:
+      file.write(str(frame_rate_calc))
+      
     # Press 'q' to quit
     if cv2.waitKey(1) == ord('q'):
         break
