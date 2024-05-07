@@ -90,12 +90,14 @@ RUN ./tflite-vx-delegate.sh
 FROM --platform=linux/${IMAGE_ARCH} \
     torizon/qt5-wayland-vivante:3 AS Deploy
 
+ARG APP_ROOT
+
 ENV LD_LIBRARY_PATH=/usr/local/lib
 # Copy the application source code in the workspace to the $APP_ROOT directory 
 # path inside the container, where $APP_ROOT is the torizon_app_root 
 # configuration defined in settings.json
-COPY ./src /home/torizon/app/src
-COPY --from=Build /home/torizon/app/.venv /home/torizon/app/.venv
+COPY ./src ${APP_ROOT}/src
+COPY --from=Build ${APP_ROOT}/.venv ${APP_ROOT}/.venv
 COPY --from=Build /usr/local/lib /usr/local/lib
 COPY --from=Middle /build/usr/lib /usr/lib
 
@@ -106,10 +108,9 @@ RUN apt-get -q -y update && \
       libxext6 \
     && apt-get clean && apt-get autoremove && \
     rm -rf /var/lib/apt/lists/*
-WORKDIR /home/torizon/app/
+WORKDIR ${APP_ROOT}
 
 ENV QT_QPA_PLATFORM="xcb"
-ENV APP_ROOT=/home/torizon/app/
 ENV USE_GPU_INFERENCE=0
 
 USER torizon
